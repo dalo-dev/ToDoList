@@ -13,6 +13,10 @@ let taskList = JSON.parse(localStorage.getItem("tasks"));
 const displayTask = function (task, order) {
   const htmlElement = `<li>
     <p>${task}</p>
+    <div>
+      <button type="button">🗹</button>
+      <button type="button">☒</button>
+    </div>
     </li>`;
   listElement.insertAdjacentHTML(order, htmlElement);
   inputElement.value = "";
@@ -24,7 +28,7 @@ const updateLocalStorage = function () {
   const tasks = [];
 
   tasksElements.forEach((task) => {
-    tasks.push({ task: task.innerText });
+    tasks.push({ task: task.querySelector("p").innerText });
   });
   localStorage.setItem("tasks", JSON.stringify(tasks));
 };
