@@ -10,8 +10,9 @@
     <main class="container">
       <h1 class="title">To do List</h1>
       <div class="list-container">
-        <form class="form-list">
+        <form class="form-list" id="form">
           <input
+            id="task-input"
             type="text"
             placeholder="Enter your task..."
             autocomplete="off"
@@ -19,7 +20,11 @@
             maxlength="50"
           />
         </form>
-        <ul class="list"></ul>
+        <ul class="list">
+          <li>
+            <p>This is an example...</p>
+          </li>
+        </ul>
       </div>
     </main>
   </body>
