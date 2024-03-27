@@ -8,9 +8,9 @@ const listElement = document.querySelector(".list");
 
 //////////////////
 
-const displayTask = function (taskText) {
-  const htmlElement = `<li>
-    <p>${taskText}</p>
+const displayTask = function (taskItem) {
+  const htmlElement = `<li ${taskItem.checked ? 'class="checked"' : ""}>
+    <p>${taskItem.task}</p>
     <div>
       <button class="checked-btn" type="button">🗹</button>
       <button class="delete-btn" type="button">☒</button>
@@ -21,8 +21,8 @@ const displayTask = function (taskText) {
 };
 
 const addTask = function (taskText) {
-  taskList.push({ task: taskText, checked: false });
-  displayTask(taskText);
+  const newTask = taskList.push({ task: taskText, checked: false });
+  displayTask(newTask);
   updateLocalStorage();
 };
 
@@ -31,11 +31,14 @@ const checkTask = function (liElement) {
   taskList.find(
     (task) => task.task === liElement.querySelector("p").innerText
   ).checked = liElement.classList.contains("checked");
+  updateLocalStorage();
 };
 
-const deleteTask = function (taskText) {
+const deleteTask = function (liElement) {
   taskList.splice(
-    taskList.findIndex((t) => t.task === taskText),
+    taskList.findIndex(
+      (t) => t.task === liElement.querySelector("p").innerText
+    ),
     1
   );
   updateLocalStorage();
@@ -58,12 +61,11 @@ formElement.addEventListener("submit", (e) => {
 listElement.addEventListener("click", (e) => {
   const liParentElement = e.target.closest("li");
   if (e.target.classList.contains("delete-btn")) {
-    const taskText = liParentElement.querySelector("p").innerText;
-    deleteTask(taskText);
+    deleteTask(liParentElement);
   } else if (e.target.classList.contains("checked-btn")) {
     checkTask(liParentElement);
   }
 });
 
 let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
-taskList.forEach((taskItem) => displayTask(taskItem.task));
+taskList.forEach((taskItem) => displayTask(taskItem));
