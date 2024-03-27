@@ -68,5 +68,13 @@ body {
         font-size: 1.5rem;
       }
     }
+
+    .checked {
+      background-color: var(--light-black);
+
+      p {
+        text-decoration: line-through;
+      }
+    }
   }
 }

@@ -26,6 +26,13 @@ const addTask = function (taskText) {
   updateLocalStorage();
 };
 
+const checkTask = function (liElement) {
+  liElement.classList.toggle("checked");
+  taskList.find(
+    (task) => task.task === liElement.querySelector("p").innerText
+  ).checked = liElement.classList.contains("checked");
+};
+
 const deleteTask = function (taskText) {
   taskList.splice(
     taskList.findIndex((t) => t.task === taskText),
@@ -49,9 +56,12 @@ formElement.addEventListener("submit", (e) => {
 });
 
 listElement.addEventListener("click", (e) => {
+  const liParentElement = e.target.closest("li");
   if (e.target.classList.contains("delete-btn")) {
-    const taskText = e.target.closest("li").querySelector("p").innerText;
+    const taskText = liParentElement.querySelector("p").innerText;
     deleteTask(taskText);
+  } else if (e.target.classList.contains("checked-btn")) {
+    checkTask(liParentElement);
   }
 });
 
