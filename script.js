@@ -38,5 +38,18 @@ formElement.addEventListener("submit", (e) => {
   task && addTask(task);
 });
 
+listElement.addEventListener("click", (e) => {
+  if (e.target.classList.contains("delete-btn")) {
+    const taskText = e.target.closest("li").querySelector("p").innerText;
+    taskList.splice(
+      taskList.findIndex((t) => t.task === taskText),
+      1
+    );
+    updateLocalStorage();
+    listElement.innerHTML = "";
+    taskList.forEach((taskItem) => displayTask(taskItem.task));
+  }
+});
+
 let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
 taskList.forEach((taskItem) => displayTask(taskItem.task));
