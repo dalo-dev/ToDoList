@@ -8,38 +8,35 @@ const listElement = document.querySelector(".list");
 
 //////////////////
 
-let taskList = JSON.parse(localStorage.getItem("tasks"));
-
-const displayTask = function (task, order) {
+const displayTask = function (taskText) {
   const htmlElement = `<li>
-    <p>${task}</p>
+    <p>${taskText}</p>
     <div>
-      <button type="button">🗹</button>
-      <button type="button">☒</button>
+      <button class="checked-btn" type="button">🗹</button>
+      <button class="delete-btn" type="button">☒</button>
     </div>
     </li>`;
-  listElement.insertAdjacentHTML(order, htmlElement);
+  listElement.insertAdjacentHTML("afterBegin", htmlElement);
   inputElement.value = "";
+};
+
+const addTask = function (taskText) {
+  taskList.push({ task: taskText, checked: false });
+  displayTask(taskText);
   updateLocalStorage();
 };
 
 const updateLocalStorage = function () {
-  const tasksElements = listElement.querySelectorAll("li");
-  const tasks = [];
-
-  tasksElements.forEach((task) => {
-    tasks.push({ task: task.querySelector("p").innerText });
-  });
-  localStorage.setItem("tasks", JSON.stringify(tasks));
+  localStorage.setItem("tasks", JSON.stringify(taskList));
 };
 
 //////////////////
 
-taskList &&
-  taskList.forEach((taskItem) => displayTask(taskItem.task, "beforeend"));
-
 formElement.addEventListener("submit", (e) => {
   e.preventDefault();
   const task = inputElement.value.trim();
-  task && displayTask(task, "afterBegin");
+  task && addTask(task);
 });
+
+let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+taskList.forEach((taskItem) => displayTask(taskItem.task));
