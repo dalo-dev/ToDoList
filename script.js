@@ -21,7 +21,9 @@ const displayTask = function (taskItem) {
 };
 
 const addTask = function (taskText) {
-  const newTask = taskList.push({ task: taskText, checked: false });
+  if (taskList.some((taskItem) => taskItem.task === taskText)) return;
+  const newTask = { task: taskText, checked: false };
+  taskList.push(newTask);
   displayTask(newTask);
   updateLocalStorage();
 };
@@ -43,7 +45,7 @@ const deleteTask = function (liElement) {
   );
   updateLocalStorage();
   listElement.innerHTML = "";
-  taskList.forEach((taskItem) => displayTask(taskItem.task));
+  taskList.forEach((taskItem) => displayTask(taskItem));
 };
 
 const updateLocalStorage = function () {
